@@ -100,8 +100,20 @@ class HoleState extends State<Hole> {
                   final QuerySnapshot qs = await Firestore.instance.collection('markershack').getDocuments();
                   setState(() {
                     _markersDB = qs.documents;
+                    _markers = <MarkerId, Marker>{};
                   });
-                  _addMarkers(newLocation, BitmapDescriptor.hueGreen);
+                  
+                  for(int i = 0 ; i < _markersDB.length; ++i) {
+                    Map<String, dynamic> currentDocumentData = _markersDB[i].data;
+                    final double latitude = currentDocumentData['latitude'];
+                    final double longitude = currentDocumentData['longitude'];
+                    final bool status = currentDocumentData['status'];
+
+                    final LatLng reportLocation = LatLng(latitude, longitude);
+                    final double hue = (status)? BitmapDescriptor.hueGreen: BitmapDescriptor.hueRed;
+
+                    _addMarkers(reportLocation, hue);
+                  }
                 },
                 closeIssue: _closeIssue,
               ),
@@ -214,7 +226,7 @@ class HoleState extends State<Hole> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      'Hole',
+                      'Whole',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
