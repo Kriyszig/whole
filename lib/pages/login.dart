@@ -22,7 +22,17 @@ class LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(5),
+              margin: EdgeInsets.all(30),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: Image.asset(
+                  'asset/img/logo.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
               child: TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -57,7 +67,7 @@ class LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(10),
               child:TextField(
                 obscureText: true,
                 decoration: InputDecoration(
