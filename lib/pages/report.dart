@@ -21,11 +21,17 @@ class Report extends StatefulWidget {
 class ReportState extends State<Report> {
   String _headline = '';
   String _description = '';
+  TextEditingController _headlineController;
+  TextEditingController _descriptionController;
+  FocusNode _headlineFocus;
+  FocusNode _descriptionFocus;
   File _image;
   bool inProgress = false;
   String _progressText = '';
 
   Future<void> _getImageFromCamera() async {
+    _headlineFocus.unfocus();
+    _descriptionFocus.unfocus();
     File image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
@@ -33,6 +39,8 @@ class ReportState extends State<Report> {
   }
 
   Future<void> _getImageFromGallery() async {
+    _headlineFocus.unfocus();
+    _descriptionFocus.unfocus();
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
@@ -104,6 +112,24 @@ class ReportState extends State<Report> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _headlineController = TextEditingController();
+    _descriptionController = TextEditingController();
+    _headlineFocus = FocusNode();
+    _descriptionFocus = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _headlineController.dispose();
+    _descriptionController.dispose();
+    _headlineFocus.dispose();
+    _descriptionFocus.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return (inProgress) ?
       Container(
@@ -168,6 +194,7 @@ class ReportState extends State<Report> {
             Container(
               padding: EdgeInsets.all(5),
               child: TextField(
+                focusNode: _headlineFocus,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue, width: 2),
@@ -187,12 +214,13 @@ class ReportState extends State<Report> {
                   focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue, width: 2),
                   ),
-                  labelText: 'Headline',
+                  labelText: "Headline",
                   labelStyle: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                controller: _headlineController,
                 onChanged: (String text) {
                   setState(() {
                     _headline = text;
@@ -203,6 +231,7 @@ class ReportState extends State<Report> {
             Container(
               padding: EdgeInsets.all(10),
               child: TextField(
+                focusNode: _descriptionFocus,
                 minLines: 3,
                 maxLines: 5,
                 decoration: InputDecoration(
@@ -224,13 +253,13 @@ class ReportState extends State<Report> {
                   focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue, width: 2),
                   ),
-                  labelText: 'Description',
+                  labelText: "Description",
                   labelStyle: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
                   ),
-                  
                 ),
+                controller: _descriptionController,
                 onChanged: (String text) {
                   setState(() {
                     _description = text;
