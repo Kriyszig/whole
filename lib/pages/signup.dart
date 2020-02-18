@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
-import './signup.dart';
-
-class LoginScreen extends StatefulWidget {
+class SignupScreen extends StatefulWidget {
   final dynamic setSuperState;
-  LoginScreen({this.setSuperState});
+  SignupScreen({this.setSuperState});
 
   @override
-  State<LoginScreen> createState() => LoginScreenState();
+  State<SignupScreen> createState() => SignupScreenState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
-  String email;
-  String password;
+class SignupScreenState extends State<SignupScreen> {
+  String _email;
+  String _password;
+  String _name;
   
   @override
   Widget build(BuildContext context) {
@@ -55,6 +54,41 @@ class LoginScreenState extends State<LoginScreen> {
                   focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue, width: 2),
                   ),
+                  labelText: 'Name',
+                  labelStyle: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onChanged: (String text) {
+                  setState(() {
+                    _name = text;
+                  });
+                },
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
+                  ),
                   labelText: 'E-Mail',
                   labelStyle: TextStyle(
                     color: Colors.blue,
@@ -63,7 +97,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
                 onChanged: (String text) {
                   setState(() {
-                    email = text;
+                    _email = text;
                   });
                 },
               ),
@@ -99,7 +133,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
                 onChanged: (String text) {
                   setState(() {
-                    password = text;
+                    _password = text;
                   });
                 },
               ),
@@ -107,42 +141,13 @@ class LoginScreenState extends State<LoginScreen> {
             FlatButton(
               color: Colors.blue,
               child: Text(
-                'Login',
+                'Register New User',
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                widget.setSuperState(true);
                 Navigator.of(context).pop();
               },
-            ),
-            FlatButton(
-              color: Colors.blue,
-              child: Text(
-                'Register',
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) => SignupScreen(),
-                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                      Offset begin = Offset(1.0, 0.0);
-                      Offset end = Offset.zero;
-                      Curve curve = Curves.decelerate;
-
-                      Animatable<Offset> tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-                      return SlideTransition(
-                        position: animation.drive(tween),
-                        child: child,
-                        
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
+            )
           ],
         ),
       ),
