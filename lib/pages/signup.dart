@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
-  final dynamic setSuperState;
-  SignupScreen({this.setSuperState});
-
   @override
   State<SignupScreen> createState() => SignupScreenState();
 }
