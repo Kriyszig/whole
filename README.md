@@ -34,6 +34,44 @@ flutter run
 
 To install Flutter, please go through the official Flutter installation guide [here](https://flutter.dev/docs/get-started/install)
 
+#### Firestore Structure
+
+The structure of Firebase FireStore is as follows:
+
+There are two collections:
+* markershack
+* reportshack
+
+markershack contains all the details to render the marker on the Google Maps and is structured as follows
+```
+markershack -> document[documentId: `${latitude}_${longitude}`] -> {
+    count,
+    latitude,
+    longitude,
+    status
+}
+```
+The fields are described as follows:
+* latitude: Latitude of the reported area
+* longitude: Longitude of the reported area
+* status: Boolean telling whether the issue is open or close
+* count: Number of people who have submitted a re-open compliant for premature issue closure
+
+reportshack contains the postes related to the reported issues and is structured as follows
+```
+markershack -> document[documentId: `${latitude}_${longitude}`] -> {
+    title: [
+        description,
+        imageURL
+    ]
+}
+```
+Each entry is a JSON object with the following property:
+* Key is the title of the given issue
+* Each value is an array of size 2 - The first field being the description of the issue, and the second field containing the URL of the uploaded image. The second field will be an empty string if no image was uploaded while reporting.
+
+
+
 #### Acknowledgement
 
 This prototype would not have been possible if not for the people behind it:
